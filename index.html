@@ -3,18 +3,90 @@
 <head>
 	<title>HEEEEYEEEEAAAAHYEAAAH</title>
 </head>
-<body onload="setInterval(onTimerElapsed, 1500);">
-<div>
-	<h1>HEEEEYEEEEAAAAHYEAAAH</h1>
+<body onload="setInterval(onTimerElapsed, 1);">
+<div style="text-align: center;">
+	<h1 id="titlez">HEEEEYEEEEAAAAHYEAAAH</h1>
+	<img src="dance.gif" width="20%" />
+	<iframe src="https://www.youtube.com/embed/wyguBEc2dw4?rel=0&amp;autoplay=1&loop=1" frameborder="0"; width ="640" height="400">
+	</iframe>
+	<img src="dance.gif" width="20%" />
+</div>
+<div style="text-align: center;">
+	
+	<img src="dance2.gif" width="20%" />
+	<img src="dance2.gif" width="20%" />
+	<img src="dance2.gif" width="20%" />
+	<img src="dance2.gif" width="20%" />
 </div>
 </body>
 <script>
+var colour = 0;
+const LOW_VALUE = 250, MEDIUM_LOW_VALUE = 500, MEDIUM_HIGH_VALUE = 750, HIGH_VALUE = 1000, MAX_VALUE = 1250;
+
+function rgb(r, g, b){
+  r = Math.floor(r);
+  g = Math.floor(g);
+  b = Math.floor(b);
+  return ["rgb(",r,",",g,",",b,")"].join("");
+}
+
+function getColour(c)
+{
+	var r = 0, g = 0, b = 0;
+	
+	//Low VALUE (blue @ 255; Green++)
+	if (c <= LOW_VALUE) // > 0
+	{
+		r = 21;
+		b = 255;
+		g = 21 + (c / (LOW_VALUE - 0)) * 234;
+	}
+	//Medium-Low VALUE (Green @ 255; Blue--)
+	else if (c <= MEDIUM_LOW_VALUE) // > 0
+	{
+		r = 21;
+		b = 255 - ((c - LOW_VALUE) / (MEDIUM_LOW_VALUE - LOW_VALUE)) * 234;
+		g = 255;
+	}
+	//Medium-High VALUE (Green @ 255; Red++)
+	else if (c <= MEDIUM_HIGH_VALUE)
+	{
+		r = 21 + ((c - MEDIUM_LOW_VALUE) / (MEDIUM_HIGH_VALUE - MEDIUM_LOW_VALUE)) * 234;
+		b = 21;
+		g = 255;
+	}
+	//High VALUE (Red @ 255; Green--)
+	else if (c <= HIGH_VALUE)
+	{
+		r = 255;
+		b = 21;
+		g = 255 - ((c - MEDIUM_HIGH_VALUE) / (HIGH_VALUE - MEDIUM_HIGH_VALUE)) * 234;
+	}
+	//Max Value (Red @ 255; Blue++)
+	else if (c <= MAX_VALUE)
+	{
+		r = 255;
+		b = 21 + ((c - HIGH_VALUE) / (MAX_VALUE - HIGH_VALUE)) * 234;
+		g = 21;
+	}
+	
+	return rgb(r, g, b);
+}
+
 function onTimerElapsed() 
 {
-	elem = document.createElement("iframe");
-	elem.src="https://www.youtube.com/embed/wyguBEc2dw4?rel=0&amp;autoplay=1";
-	elem.frameborder="0";
-	document.body.insertBefore(elem, elem.nextSibling);
+	colour++;
+	colour = colour < 0 ? 0 : colour;
+	colour = colour > MAX_VALUE ? 0 : colour;	
+
+	document.getElementById("titlez").style.color = getColour(colour);
+	var bgColour = colour + 625	> MAX_VALUE ? colour + 625 - MAX_VALUE : colour + 625;
+	document.body.style.backgroundColor = getColour(bgColour);
+
+	//elem = document.createElement("iframe");
+	//elem.src="https://www.youtube.com/embed/wyguBEc2dw4?rel=0&amp;autoplay=1";
+	//elem.frameborder="0";
+	//document.body.insertBefore(elem, elem.nextSibling);
 }
 </script>
 
