@@ -30,7 +30,7 @@ function rgb(r, g, b){
   return ["rgb(",r,",",g,",",b,")"].join("");
 }
 
-function getColour(c)
+function getColour(c, i)
 {
 	var r = 0, g = 0, b = 0;
 	
@@ -70,18 +70,34 @@ function getColour(c)
 		g = 21;
 	}
 	
-	return rgb(r, g, b);
+	if (i == true)
+		return rgb(invertColour(r), invertColour(g), invertColour(b));
+	else
+		return rgb(r, g, b);
 }
 
+function invertColour(c)
+{
+	c = Math.floor(c);
+  	
+	if (c >= 128)
+	{
+		c = 128 - (c - 127);
+	}
+	else
+	{
+		c = 127 + (128 - c);
+	}
+}
+	
 function onTimerElapsed() 
 {
 	colour++;
 	colour = colour < 0 ? 0 : colour;
 	colour = colour > MAX_VALUE ? 0 : colour;	
 
-	document.getElementById("titlez").style.color = getColour(colour);
-	var bgColour = colour + 625	> MAX_VALUE ? colour + 625 - MAX_VALUE : colour + 625;
-	document.body.style.backgroundColor = getColour(bgColour);
+	document.getElementById("titlez").style.color = getColour(colour, true);
+	document.body.style.backgroundColor = getColour(colour, false);
 
 	//elem = document.createElement("iframe");
 	//elem.src="https://www.youtube.com/embed/wyguBEc2dw4?rel=0&amp;autoplay=1";
