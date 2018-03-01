@@ -21,7 +21,7 @@
 </body>
 <script>
 var colour = 0;
-const LOW_VALUE = 250, MEDIUM_LOW_VALUE = 500, MEDIUM_HIGH_VALUE = 750, HIGH_VALUE = 1000, MAX_VALUE = 1250;
+const BLUE_MAX = 250, GREEN_BLUE_MAX = 500, GREEN_MAX = 750, RED_GREEN_MAX = 1000, RED_MAX = 1250, BLUE_RED_MAX = 1500;
 
 function rgb(r, g, b){
   r = Math.floor(r);
@@ -35,38 +35,45 @@ function getColour(c, i)
 	var r = 0, g = 0, b = 0;
 	
 	//Low VALUE (blue @ 255; Green++)
-	if (c <= LOW_VALUE) // > 0
+	if (c <= BLUE_MAX) // > 0
 	{
 		r = 21;
 		b = 255;
-		g = 21 + (c / (LOW_VALUE - 0)) * 234;
+		g = 21 + (c / (BLUE_MAX - 0)) * 234;
 	}
 	//Medium-Low VALUE (Green @ 255; Blue--)
-	else if (c <= MEDIUM_LOW_VALUE) // > 0
+	else if (c <= GREEN_BLUE_MAX) // > 0
 	{
 		r = 21;
-		b = 255 - ((c - LOW_VALUE) / (MEDIUM_LOW_VALUE - LOW_VALUE)) * 234;
+		b = 255 - ((c - BLUE_MAX) / (GREEN_BLUE_MAX - BLUE_MAX)) * 234;
 		g = 255;
 	}
 	//Medium-High VALUE (Green @ 255; Red++)
-	else if (c <= MEDIUM_HIGH_VALUE)
+	else if (c <= GREEN_MAX)
 	{
-		r = 21 + ((c - MEDIUM_LOW_VALUE) / (MEDIUM_HIGH_VALUE - MEDIUM_LOW_VALUE)) * 234;
+		r = 21 + ((c - GREEN_BLUE_MAX) / (GREEN_MAX - GREEN_BLUE_MAX)) * 234;
 		b = 21;
 		g = 255;
 	}
 	//High VALUE (Red @ 255; Green--)
-	else if (c <= HIGH_VALUE)
+	else if (c <= RED_GREEN_MAX)
 	{
 		r = 255;
 		b = 21;
-		g = 255 - ((c - MEDIUM_HIGH_VALUE) / (HIGH_VALUE - MEDIUM_HIGH_VALUE)) * 234;
+		g = 255 - ((c - GREEN_MAX) / (RED_GREEN_MAX - GREEN_MAX)) * 234;
 	}
 	//Max Value (Red @ 255; Blue++)
-	else if (c <= MAX_VALUE)
+	else if (c <= RED_MAX)
 	{
 		r = 255;
-		b = 21 + ((c - HIGH_VALUE) / (MAX_VALUE - HIGH_VALUE)) * 234;
+		b = 21 + ((c - RED_GREEN_MAX) / (RED_MAX - RED_GREEN_MAX)) * 234;
+		g = 21;
+	}
+	//Over? Max Value (Blue @ 255; Red--)
+	else if (c <= BLUE_RED_MAX)
+	{
+		r = 255 - ((c - RED_MAX) / (BLUE_RED_MAX - RED_MAX)) * 234;
+		b = 255;
 		g = 21;
 	}
 	
@@ -96,7 +103,7 @@ function onTimerElapsed()
 {
 	colour++;
 	colour = colour < 0 ? 0 : colour;
-	colour = colour > MAX_VALUE ? 0 : colour;	
+	colour = colour > BLUE_RED_MAX ? 0 : colour;	
 
 	document.getElementById("titlez").style.color = getColour(colour, true);
 	document.body.style.backgroundColor = getColour(colour, false);
