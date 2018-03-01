@@ -70,7 +70,7 @@ function getColour(c, i)
 		g = 21;
 	}
 	
-	if (i == true)
+	if (i)
 		return rgb(invertColour(r), invertColour(g), invertColour(b));
 	else
 		return rgb(r, g, b);
@@ -88,6 +88,8 @@ function invertColour(c)
 	{
 		c = 127 + (128 - c);
 	}
+	
+	return c;
 }
 	
 function onTimerElapsed() 
