@@ -85,18 +85,7 @@ function getColour(c, i)
 
 function invertColour(c)
 {
-	c = Math.floor(c);
-  	
-	if (c >= 128)
-	{
-		c = 128 - (c - 127);
-	}
-	else
-	{
-		c = 127 + (128 - c);
-	}
-	
-	return c;
+	return Math.floor(255 - c);
 }
 	
 function onTimerElapsed() 
